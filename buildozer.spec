@@ -1,54 +1,39 @@
 [app]
 
-# (str) Uygulamanın adı
+# Uygulama Bilgileri
 title = Pro Hesap Makinesi
-
-# (str) Paket adı (Türkçe karakter ve boşluk içermez)
 package.name = prohesap
-
-# (str) Paket alanı
 package.domain = org.ybs
 
-# (str) Kodun bulunduğu dizin
+# Kaynak klasörü
 source.dir = .
-
-# (list) Dahil edilecek dosya uzantıları
 source.include_exts = py,png,jpg,kv,atlas
 
-# (str) Uygulama sürümü
+# Versiyon
 version = 0.1
 
-# (list) Gereksinimler (Virgülden sonra boşluk bırakma!)
+# Gereksinimler
 requirements = python3,kivy
 
-# (list) Desteklenen yön
+# Ekran
 orientation = portrait
-
-# (bool) Tam ekran modu
 fullscreen = 0
 
-# (int) Hedef Android API (En stabil olanı 33'tür)
-android.api = 33
-
-# (int) Minimum desteklenen API
+# Android Ayarları (STABİL KOMBINASYON)
+android.api = 31
 android.minapi = 21
+android.sdk = 31
+android.ndk = 23b
+android.build_tools = 31.0.0
 
-# (str) Android SDK build tools versiyonu
-android.sdk_build_tools_version = 33.0.0
-
-# (bool) Lisansları otomatik kabul et (GitHub Actions için ŞART!)
-android.accept_sdk_license = True
-
-# (list) Desteklenen mimariler (Çoğu telefon için yeterli)
-android.archs = arm64-v8a, armeabi-v7a
-
-# (bool) Yedeklemeye izin ver
-android.allow_backup = True
-
-[buildozer]
-
-# (int) Log seviyesi (Hataları görmek için 2 yapıldı)
+# Log seviyesi (hata görürsen detaylı çıkar)
 log_level = 2
 
-# (int) Root uyarısını göster
-warn_on_root = 1
+# İzinler (şimdilik boş)
+android.permissions =
+
+# Mimari
+android.archs = armeabi-v7a, arm64-v8a
+
+# Debug
+android.debug = 1
