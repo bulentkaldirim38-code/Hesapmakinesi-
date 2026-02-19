@@ -7,22 +7,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Sistem Araclarini Yukle
-        run: |
-          sudo apt update
-          sudo apt install -y python3-pip build-essential git python3 python3-dev \
-          libffi-dev libssl-dev libtool pkg-config autoconf automake
+      - name: Build with Buildozer
+        uses: ArtemSerebrennkov/buildozer-action@v1
+        with:
+          command: buildozer android debug
+          # Bu satır robotun senin yerine 'evet' demesini sağlar
+          buildozer_version: master
+        env:
+          # Android lisanslarını otomatik onaylar
+          ACCEPT_SDK_LICENSE: "yes"
 
-      - name: Buildozer ve Cython Yukle
-        run: |
-          pip3 install --user buildozer cython==0.29.33
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: APK Uretimini Baslat
-        run: buildozer android debug
-        # Not: Burada hata alirsan buildozer.spec icindeki requirements kismini kontrol et.
-
-      - name: APK Dosyasini Yukle
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: HesapMakinesiAPK
