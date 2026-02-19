@@ -7,11 +7,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Gerekli Sistem Paketlerini Yukle
+      - name: Sistem Araclarini Yukle
         run: |
           sudo apt update
           sudo apt install -y python3-pip build-essential git python3 python3-dev \
-          libffi-dev libssl-dev libtool pkg-config autoconf automake
+          libffi-dev libssl-dev libtool pkg-config autoconf automake gettext
 
       - name: Buildozer ve Cython Yukle
         run: |
@@ -20,11 +20,12 @@ jobs:
 
       - name: APK Uretimini Baslat
         run: |
-          # Lisansları otomatik kabul etmesi için bu komutu kullanıyoruz
-          yes | buildozer android debug
+          # Lisans hatasını çözmek için çevre değişkeni kullanıyoruz
+          export APP_ANDROID_ACCEPT_SDK_LICENSE=1
+          buildozer android debug
         
-      - name: APK Dosyasini Yukle (Artifact)
+      - name: APK Dosyasini Yukle
         uses: actions/upload-artifact@v4
         with:
-          name: HesapMakinesi-Android-Uygulamam
+          name: HesapMakinesiAPK
           path: bin/*.apk
