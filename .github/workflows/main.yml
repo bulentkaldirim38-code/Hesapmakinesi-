@@ -7,16 +7,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build with Buildozer
-        # Resmi Kivy robotunu kullanıyoruz
-        uses: kivy/buildozer-action@master 
-        with:
-          command: buildozer android debug
-          buildozer_version: master
+      - name: Gerekli Sistem Paketlerini Yukle
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip build-essential git python3 python3-dev \
+          libffi-dev libssl-dev libtool pkg-config autoconf automake
 
-      - name: Upload APK
-        # En güncel yükleme robotunu kullanıyoruz
+      - name: Buildozer ve Cython Yukle
+        run: |
+          pip3 install --user buildozer cython==0.29.33
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: APK Uretimini Baslat
+        run: |
+          # Lisansları otomatik kabul etmesi için bu komutu kullanıyoruz
+          yes | buildozer android debug
+        
+      - name: APK Dosyasini Yukle (Artifact)
         uses: actions/upload-artifact@v4
         with:
-          name: HesapMakinesiAPK
+          name: HesapMakinesi-Android-Uygulamam
           path: bin/*.apk
