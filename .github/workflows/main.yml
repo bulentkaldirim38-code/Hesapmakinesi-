@@ -1,5 +1,7 @@
 name: Build APK
-on: [push]
+on:
+  push:
+    branches: [ main ]
 
 jobs:
   build:
@@ -8,47 +10,63 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Python 3.10 sabitle
       - name: Python Kur
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
+      # Java 17 kur
       - name: Java Kur
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      # Sistem paketleri
       - name: Sistem Hazırlığı
         run: |
           sudo apt update
           sudo apt install -y build-essential git zip unzip \
           libffi-dev libssl-dev libtool pkg-config autoconf automake gettext
 
+      # Android SDK kur
       - name: Android SDK Kur
         uses: android-actions/setup-android@v3
 
-      - name: SDK 31 ve NDK 23 Kur
+      # SDK 31 + NDK 23 yükle
+      - name: SDK ve NDK Kur
         run: |
           yes | sdkmanager --licenses
           sdkmanager "platforms;android-31"
           sdkmanager "build-tools;31.0.0"
           sdkmanager "ndk;23.1.7779620"
 
+      # NDK 23 zorla kullan
+      - name: NDK 23 Zorla
+        run: |
+          echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/23.1.7779620" >> $GITHUB_ENV
+          echo "ANDROID_NDK=$ANDROID_SDK_ROOT/ndk/23.1.7779620" >> $GITHUB_ENV
+
+      # Buildozer kur
       - name: Buildozer Kur
         run: |
           pip install --upgrade pip
           pip install buildozer cython==0.29.33
 
+      # Eski cache temizle
       - name: Clean Buildozer
         run: rm -rf .buildozer
 
+      # APK üret
       - name: APK Build
         run: |
           export APP_ANDROID_ACCEPT_SDK_LICENSE=1
           buildozer android debug
 
+      # APK yükle
       - name: APK Yükle
         uses: actions/upload-artifact@v4
         with:
-          name: ProHesap
+          name: ProHesapAPK
+          path: bin/*.apk
