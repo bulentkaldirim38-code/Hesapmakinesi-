@@ -1,6 +1,5 @@
-name: Manuel APK Build
-on: 
-  workflow_dispatch: # Bu satır sayesinde "Sen" onay vermeden çalışmaz
+name: Build APK
+on: [push, pull_request]
 
 jobs:
   build:
@@ -19,15 +18,14 @@ jobs:
           pip3 install --user buildozer cython==0.29.33
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Android Lisanslarini Onayla ve Derle
+      - name: APK Uretimini Baslat
         run: |
-          # Bu komut 'Senin' adına tüm SDK lisanslarını kabul eder
-          mkdir -p ~/.android && touch ~/.android/repositories.cfg
+          # Lisanslari otomatik kabul eden çevre değişkeni
           export APP_ANDROID_ACCEPT_SDK_LICENSE=1
           buildozer android debug
         
-      - name: APK Dosyasini Paketle
+      - name: APK Dosyasini Yukle
         uses: actions/upload-artifact@v4
         with:
-          name: HesapMakinesi-Onayli-APK
+          name: HesapMakinesiAPK
           path: bin/*.apk
