@@ -7,25 +7,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Sistem Araclarini Yukle
+      - name: Derleme Araclarini (Autoconf/M4) Yukle
         run: |
           sudo apt update
           sudo apt install -y python3-pip build-essential git python3 python3-dev \
-          libffi-dev libssl-dev libtool pkg-config autoconf automake gettext
+          libffi-dev libssl-dev libtool pkg-config autoconf automake gettext \
+          m4 perl libtool-bin # Autoconf hatasini cozen kritik paketler
 
-      - name: Buildozer ve Cython Yukle
+      - name: Buildozer ve Cython Hazirligi
         run: |
           pip3 install --user buildozer cython==0.29.33
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: APK Uretimini Baslat
         run: |
-          # NDK 25b kurulumu ve lisans onayi icin kritik komut
+          # Lisans onayini sisteme kaydet
           export APP_ANDROID_ACCEPT_SDK_LICENSE=1
           buildozer android debug
         
-      - name: APK Yukle
+      - name: APK Dosyasini Yukle
         uses: actions/upload-artifact@v4
         with:
-          name: HesapMakinesi-Android
+          name: HesapMakinesi-Android-Final
           path: bin/*.apk
