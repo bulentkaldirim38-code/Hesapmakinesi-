@@ -1,48 +1,57 @@
 [app]
 
-# Uygulama Bilgileri
+# (str) Uygulamanın başlığı
 title = Pro Hesap Makinesi
+
+# (str) Paket adı (Türkçe karakter ve boşluk içermez)
 package.name = prohesap
+
+# (str) Paket alanı (YBS bölümüne özel)
 package.domain = org.ybs
 
-# Kaynak klasörü
+# (str) Kaynak kodun olduğu dizin
 source.dir = .
+
+# (list) Dahil edilecek dosya uzantıları
 source.include_exts = py,png,jpg,kv,atlas
 
-# Versiyon
+# (str) Uygulama sürümü
 version = 0.1
 
-# Gereksinimler (Virgülden sonra boşluk yok!)
+# (list) Gereksinimler
 requirements = python3,kivy
 
-# Ekran Ayarları
+# (list) Desteklenen yön (Dikey)
 orientation = portrait
+
+# (bool) Tam ekran modu
 fullscreen = 0
 
-# Android Stabil Ayarlar
-android.api = 31
+# (int) Hedef Android API (En stabil sürüm)
+android.api = 33
+
+# (int) Minimum desteklenen API
 android.minapi = 21
-android.sdk = 31
-android.ndk = 23b
-android.build_tools = 31.0.0
 
-# Mimariler
-android.archs = armeabi-v7a, arm64-v8a
+# (str) Android NDK sürümü (HATANIN ÇÖZÜMÜ BURASI!)
+android.ndk = 25b
 
-# İzinler (şimdilik boş)
-android.permissions =
+# (str) Android SDK build tools sürümü
+android.sdk_build_tools_version = 33.0.0
 
-# Log seviyesi (Hata detay için)
-log_level = 2
+# (bool) Lisansları otomatik kabul et (GitHub Actions için zorunludur)
+android.accept_sdk_license = True
 
-# Debug
-android.debug = 1
+# (list) Desteklenen mimariler
+android.archs = arm64-v8a, armeabi-v7a
 
+# (bool) Yedeklemeye izin ver
+android.allow_backup = True
 
 [buildozer]
 
-# Log seviyesi
+# (int) Log seviyesi (Hata ayıklama için 2 yapıldı)
 log_level = 2
 
-# Uyarı seviyesi
+# (int) Root uyarısını göster
 warn_on_root = 1
